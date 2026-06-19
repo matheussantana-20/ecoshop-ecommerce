@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EcoShop — Criar Conta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── Tabs ── */
+    .cad-tabs {
+      display: flex;
+      border-radius: 14px;
+      background: var(--surface-mid);
+      padding: 4px;
+      gap: 4px;
+      margin-bottom: 32px;
+    }
+    .cad-tab {
+      flex: 1;
+      padding: 10px 8px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      font-family: 'Manrope', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--on-variant);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.22s, color 0.22s, box-shadow 0.22s;
+    }
+    .cad-tab .material-symbols-outlined { font-size: 17px; }
+    .cad-tab.active {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    .cad-panel { display: none; }
+    .cad-panel.active { display: block; }
+
+    /* ── Step indicator (produtor) ── */
+    .steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 28px;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+    }
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--outline-var);
+      background: #fff;
+      font-family: 'Manrope', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--outline);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.25s, border-color 0.25s, color 0.25s;
+    }
+    .step.done .step-circle {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .step.active .step-circle {
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(13,99,27,0.12);
+    }
+    .step-label {
+      font-size: 10px;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 600;
+      color: var(--on-variant);
+      text-align: center;
+    }
+    .step.active .step-label,
+    .step.done  .step-label { color: var(--primary); }
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: var(--outline-var);
+      margin-bottom: 18px;
+      transition: background 0.25s;
+    }
+    .step-line.done { background: var(--primary); }
+
+    /* ── Seção de step ── */
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
+
+    /* ── Divider ── */
+    .form-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--outline);
+      font-size: 12px;
+      margin: 6px 0 20px;
+    }
+    .form-divider::before,
+    .form-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--outline-var);
+    }
+
+    /* ── Tag de tipo de conta ── */
+    .account-type-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: 'Manrope', sans-serif;
+      margin-bottom: 16px;
+    }
+    .tag-user     { background: #e8f5e9; color: #2e7d32; }
+    .tag-producer { background: #fff3e0; color: #e65100; }
+
+    /* ── Nav buttons (step) ── */
+    .step-nav { display: flex; gap: 10px; margin-top: 4px; }
+    .btn-back {
+      flex: 1;
+      padding: 13px;
+      border-radius: 999px;
+      border: 2px solid var(--outline-var);
+      background: transparent;
+      color: var(--on-variant);
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-back:hover { border-color: var(--primary); color: var(--primary); }
+    .btn-next {
+      flex: 2;
+      padding: 13px;
+      border-radius: 999px;
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+      box-shadow: 0 4px 14px rgba(13,99,27,0.2);
+    }
+    .btn-next:hover { opacity: 0.9; }
+
+    /* ── CNPJ/CPF info ── */
+    .doc-toggle {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .doc-toggle-btn {
+      flex: 1;
+      padding: 7px;
+      border-radius: 8px;
+      border: 1.5px solid var(--outline-var);
+      background: transparent;
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--on-variant);
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .doc-toggle-btn.active {
+      border-color: var(--primary);
+      background: #e8f5e9;
+      color: var(--primary);
+    }
+
+    /* ── Categoria de produto (produtor) ── */
+    .categoria-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .cat-btn {
+      padding: 10px 6px;
+      border-radius: 10px;
+      border: 1.5px solid var(--outline-var);
+      background: transparent;
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--on-variant);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.18s;
+    }
+    .cat-btn .material-symbols-outlined { font-size: 20px; }
+    .cat-btn:hover,
+    .cat-btn.active {
+      border-color: var(--primary);
+      background: #e8f5e9;
+      color: var(--primary);
+    }
+
+    /* Cadastro page layout */
+    .cadastro-main {
+      padding: 48px 24px 72px;
+      min-height: calc(100vh - 200px);
+    }
+    .cadastro-wrapper {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .cadastro-card {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(224,224,224,0.3);
+      border-radius: 24px;
+      padding: 40px 40px 32px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+      position: relative;
+      overflow: hidden;
+    }
+    .cadastro-card::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 200px;
+      height: 200px;
+      background: var(--primary-fixed);
+      border-radius: 50%;
+      filter: blur(72px);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    @media (max-width: 520px) {
+      .cadastro-card { padding: 28px 18px 24px; }
+      .categoria-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════ -->
+<header class="navbar">
+  <div class="container">
+    <div class="navbar-content">
+      <a href="index.html" class="navbar-logo">EcoShop</a>
+      <ul class="navbar-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="produtos.html">Produtos</a></li>
+        <li><a href="cadastro.html" class="active">Cadastro</a></li>
+      </ul>
+      <div class="navbar-right">
+        <div class="navbar-search">
+          <span class="material-symbols-outlined" style="font-size:18px;color:#707a6c;">search</span>
+          <input type="text" placeholder="Buscar produtos..."/>
+        </div>
+        <button class="navbar-btn">Entrar</button>
+        <button class="cart-nav-btn" onclick="openCart()" aria-label="Abrir carrinho">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          <span class="cart-nav-badge" style="display:none;">0</span>
+        </button>
+        <button class="navbar-hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <nav class="navbar-mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="produtos.html">Produtos</a>
+    <a href="cadastro.html" class="active">Cadastro</a>
+  </nav>
+</header>
+
+<main class="cadastro-main">
+  <div class="cadastro-wrapper">
+
+    <!-- Ícone + título geral -->
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="width:60px;height:60px;border-radius:50%;background:var(--primary-fixed);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+        <span class="material-symbols-outlined" style="font-size:30px;color:var(--primary);font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">eco</span>
+      </div>
+      <h1 style="font-family:'Manrope',sans-serif;font-size:26px;font-weight:800;color:var(--on-surface);margin-bottom:6px;">Bem-vindo à EcoShop</h1>
+      <p style="font-size:14px;color:var(--on-variant);">Escolha o tipo de conta que deseja criar</p>
+    </div>
+
+    <div class="cadastro-card">
+
+      <!-- ── TABS ── -->
+      <div class="cad-tabs" role="tablist">
+        <button class="cad-tab active" id="tab-user" onclick="switchTab('user')" role="tab" aria-selected="true">
+          <span class="material-symbols-outlined">person</span>
+          Sou Consumidor
+        </button>
+        <button class="cad-tab" id="tab-producer" onclick="switchTab('producer')" role="tab" aria-selected="false">
+          <span class="material-symbols-outlined">storefront</span>
+          Sou Produtor
+        </button>
+      </div>
+
+      <!-- ════════════════════════════════
+           PAINEL: CONSUMIDOR
+      ════════════════════════════════ -->
+      <div class="cad-panel active" id="panel-user">
+        <span class="account-type-tag tag-user">
+          <span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">verified_user</span>
+          Conta de Consumidor
+        </span>
+
+        <!-- Alertas -->
+        <div id="u-errors" style="display:none;background:#ffdad6;border:1px solid #f2b8b8;border-radius:12px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:#93000a;">
+          <strong>Por favor corrija os campos destacados.</strong>
+        </div>
+        <div id="u-success" style="display:none;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:12px;padding:16px;margin-bottom:18px;font-size:14px;color:#1b5e20;text-align:center;">
+          <span class="material-symbols-outlined" style="font-size:22px;vertical-align:middle;margin-right:6px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">check_circle</span>
+          <strong>Cadastro realizado com sucesso!</strong><br/>
+          <span style="font-size:13px;">Bem-vindo(a) à EcoShop 🌿</span>
+        </div>
+
+        <div id="u-form">
+          <!-- Nome -->
+          <div class="form-group">
+            <label for="u-nome">Nome completo <span style="color:var(--error)">*</span></label>
+            <div style="position:relative;">
+              <span class="material-symbols-outlined" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--outline);pointer-events:none;">person</span>
+              <input class="form-input" id="u-nome" type="text" placeholder="Seu nome completo" style="padding-left:42px;"/>
+            </div>
+          </div>
+
+          <!-- E-mail -->
+          <div class="form-group">
+            <label for="u-email">E-mail <span style="color:var(--error)">*</span></label>
+            <div style="position:relative;">
+              <span class="material-symbols-outlined" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--outline);pointer-events:none;">mail</span>
+              <input class="form-input" id="u-email" type="email" placeholder="seu@email.com" style="padding-left:42px;"/>
+            </div>
+          </div>
+
+          <!-- Senha + Tel -->
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom:0;">
+              <label for="u-senha">Senha <span style="color:var(--error)">*</span></label>
+              <div style="position:relative;">
+                <span class="material-symbols-outlined" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--outline);pointer-events:none;">lock</span>
+                <input class="form-input" id="u-senha" type="password" placeholder="••••••••" style="padding-left:42px;padding-right:42px;"/>
+                <button type="button" onclick="toggleSenha('u-senha','u-eye')" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--outline);">
+                  <span class="material-symbols-outlined" style="font-size:18px;" id="u-eye">visibility</span>
+                </button>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label for="u-tel">Telefone</label>
+              <div style="position:relative;">
+                <span class="material-symbols-outlined" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--outline);pointer-events:none;">phone</span>
+                <input class="form-input" id="u-tel" type="tel" placeholder="(00) 00000-0000" style="padding-left:42px;"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Força da senha -->
+          <div id="u-strength-wrap" style="margin-top:6px;margin-bottom:14px;display:none;">
+            <div style="height:4px;border-radius:4px;background:#e0e0e0;overflow:hidden;">
+              <div id="u-strength-bar" style="height:100%;width:0%;border-radius:4px;transition:width 0.3s,background 0.3s;"></div>
+            </div>
+            <span id="u-strength-label" style="font-size:11px;color:var(--on-variant);margin-top:4px;display:block;"></span>
+          </div>
+
+          <!-- Endereço -->
+          <div class="form-group" style="margin-top:4px;">
+            <label for="u-end">Endereço</label>
+            <div style="position:relative;">
+              <span class="material-symbols-outlined" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--outline);pointer-events:none;">location_on</span>
+              <input class="form-input" id="u-end" type="text" placeholder="Rua, número, bairro e cidade" style="padding-left:42px;"/>
+            </div>
+          </div>
+
+          <!-- Termos -->
+          <div class="form-check">
+            <input type="checkbox" id="u-terms"/>
+            <label for="u-terms">
+              Concordo com os <a href="#">Termos de Serviço</a> e a <a href="#">Política de Privacidade</a>.
+            </label>
+          </div>
+
+          <button class="btn-submit" id="u-btn" type="button" onclick="submitUser()">
+            Criar minha conta
+          </button>
+        </div>
+
+        <p class="cadastro-footer-text">Já tem uma conta? <a href="#">Entre aqui</a></p>
+      </div>
+
+      <!-- ════════════════════════════════
+           PAINEL: PRODUTOR (3 steps)
+      ════════════════════════════════ -->
+      <div class="cad-panel" id="panel-producer">
+        <span class="account-type-tag tag-producer">
+          <span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">store</span>
+          Conta de Produtor
+        </span>
+
+        <!-- Steps indicator -->
+        <div class="steps" id="p-steps">
+          <div class="step active" id="ps-1">
+            <div class="step-circle">1</div>
+            <div class="step-label">Acesso</div>
+          </div>
+          <div class="step-line" id="pl-1"></div>
+          <div class="step" id="ps-2">
+            <div class="step-circle">2</div>
+            <div class="step-label">Empresa</div>
+          </div>
+          <div class="step-line" id="pl-2"></div>
+          <div class="step" id="ps-3">
+            <div class="step-circle">3</div>
+            <div class="step-label">Produtos</div>
+          </div>
+        </div>
+
+        <!-- Alertas -->
+        <div id="p-errors" style="display:none;background:#ffdad6;border:1px solid #f2b8b8;border-radius:12px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:#93000a;">
+          <strong>Por favor corrija os campos destacados.</strong>
+        </div>
+        <div id="p-success" style="display:none;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:12px;padding:20px;margin-bottom:18px;font-size:14px;color:#1b5e20;text-align:center;">
+          <span class="material-symbols-outlined" style="font-size:28px;display:block;margin-bottom:8px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">store</span>
+          <strong>Cadastro de produtor realizado!</strong><br/>
+          <span style="font-size:13px;">Nossa equipe entrará em contato em até 48h 🌱</span>
+        </div>
+
+        <!-- STEP 1: Dados de acesso -->
+        <div class="step-panel active" id="pp-1">
+          <div class="form-divider">Dados de acesso</div>
+
+          <div class="form-group">
+            <label for="p-nome">Nome do Produtor / Empresa <span style="color:var(--error)">*</span></label>
+            <div style="position:relative;">
+              <span class="material-symbols-outlined" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--outline);pointer-events:none;">business</span>
+              <input class="form-input" id="p-nome" type="text" placeholder="Nome completo ou razão social" style="padding-left:42px;"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="p-email">E-mail <span style="color:var(--error)">*</span></label>
+            <div style="position:relative;">
+              <span class="material-symbols-outlined" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--outline);pointer-events:none;">mail</span>
+              <input class="form-input" id="p-email" type="email" placeholder="contato@empresa.com" style="padding-left:42px;"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="p-senha">Senha <span style="color:var(--error)">*</span></label>
+            <div style="position:relative;">
+              <span class="material-symbols-outlined" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--outline);pointer-events:none;">lock</span>
+              <input class="form-input" id="p-senha" type="password" placeholder="••••••••" style="padding-left:42px;padding-right:42px;"/>
+              <button type="button" onclick="toggleSenha('p-senha','p-eye')" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--outline);">
+                <span class="material-symbols-outlined" style="font-size:18px;" id="p-eye">visibility</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Força da senha -->
+          <div id="p-strength-wrap" style="margin-top:2px;margin-bottom:16px;display:none;">
+            <div style="height:4px;border-radius:4px;background:#e0e0e0;overflow:hidden;">
+              <div id="p-strength-bar" style="height:100%;width:0%;border-radius:4px;transition:width 0.3s,background 0.3s;"></div>
+            </div>
+            <span id="p-strength-label" style="font-size:11px;color:var(--on-variant);margin-top:4px;display:block;"></span>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn-next" style="flex:1;" onclick="goStep(2)">
+              Próximo <span class="material-symbols-outlined" style="font-size:18px;">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Dados da empresa -->
+        <div class="step-panel" id="pp-2">
+          <div class="form-divider">Dados da empresa</div>
+
+          <!-- Tipo de documento -->
+          <div class="form-group">
+            <label>Tipo de documento <span style="color:var(--error)">*</span></label>
+            <div class="doc-toggle">
+              <button class="doc-toggle-btn active" id="doc-cnpj" onclick="setDocType('cnpj')">CNPJ — Empresa</button>
+              <button class="doc-toggle-btn" id="doc-cpf" onclick="setDocType('cpf')">CPF — Autônomo</button>
+            </div>
+            <div style="position:relative;">
+              <span class="material-symbols-outlined" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--outline);pointer-events:none;">badge</span>
+              <input class="form-input" id="p-doc" type="text" placeholder="00.000.000/0000-00" style="padding-left:42px;" maxlength="18"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="p-tel">Telefone / WhatsApp <span style="color:var(--error)">*</span></label>
+            <div style="position:relative;">
+              <span class="material-symbols-outlined" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--outline);pointer-events:none;">phone</span>
+              <input class="form-input" id="p-tel" type="tel" placeholder="(00) 00000-0000" style="padding-left:42px;"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="p-end">Endereço <span style="color:var(--error)">*</span></label>
+            <div style="position:relative;">
+              <span class="material-symbols-outlined" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--outline);pointer-events:none;">location_on</span>
+              <input class="form-input" id="p-end" type="text" placeholder="Rua, Número, Cidade — UF" style="padding-left:42px;"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="p-site">Site ou Instagram <span style="font-size:11px;color:var(--outline)">(opcional)</span></label>
+            <div style="position:relative;">
+              <span class="material-symbols-outlined" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--outline);pointer-events:none;">link</span>
+              <input class="form-input" id="p-site" type="text" placeholder="@suamarca ou www.suamarca.com.br" style="padding-left:42px;"/>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn-back" onclick="goStep(1)">← Voltar</button>
+            <button class="btn-next" onclick="goStep(3)">
+              Próximo <span class="material-symbols-outlined" style="font-size:18px;">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Categorias + finalizar -->
+        <div class="step-panel" id="pp-3">
+          <div class="form-divider">Seus produtos</div>
+
+          <div class="form-group">
+            <label>Categorias que você vende <span style="color:var(--error)">*</span></label>
+            <div class="categoria-grid" id="cat-grid">
+              <button class="cat-btn" data-cat="casa" onclick="toggleCat(this)">
+                <span class="material-symbols-outlined">home</span>Casa
+              </button>
+              <button class="cat-btn" data-cat="higiene" onclick="toggleCat(this)">
+                <span class="material-symbols-outlined">spa</span>Higiene
+              </button>
+              <button class="cat-btn" data-cat="escritorio" onclick="toggleCat(this)">
+                <span class="material-symbols-outlined">work</span>Escritório
+              </button>
+              <button class="cat-btn" data-cat="alimentos" onclick="toggleCat(this)">
+                <span class="material-symbols-outlined">lunch_dining</span>Alimentos
+              </button>
+              <button class="cat-btn" data-cat="moda" onclick="toggleCat(this)">
+                <span class="material-symbols-outlined">checkroom</span>Moda
+              </button>
+              <button class="cat-btn" data-cat="outros" onclick="toggleCat(this)">
+                <span class="material-symbols-outlined">category</span>Outros
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="p-desc">Descrição da sua empresa / produtos <span style="color:var(--error)">*</span></label>
+            <textarea class="form-input" id="p-desc" rows="3"
+              placeholder="Conte um pouco sobre sua empresa, seus produtos e seus diferenciais sustentáveis..."
+              style="resize:vertical;min-height:80px;font-family:'Be Vietnam Pro',sans-serif;"></textarea>
+          </div>
+
+          <!-- Termos do produtor -->
+          <div class="form-check">
+            <input type="checkbox" id="p-terms"/>
+            <label for="p-terms">
+              Concordo com os <a href="#">Termos para Produtores</a> e com as <a href="#">Políticas de Venda</a> da EcoShop.
+            </label>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn-back" onclick="goStep(2)">← Voltar</button>
+            <button class="btn-next" onclick="submitProducer()">
+              <span class="material-symbols-outlined" style="font-size:18px;">store</span>
+              Cadastrar como Produtor
+            </button>
+          </div>
+        </div>
+
+        <p class="cadastro-footer-text" style="margin-top:24px;">Já tem uma conta? <a href="#">Entre aqui</a></p>
+      </div>
+
+    </div><!-- /cadastro-card -->
+  </div><!-- /cadastro-wrapper -->
+</main>
+
+<!-- Fundo decorativo -->
+<div class="cadastro-bg-deco">
+  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCv6bHOybhSuG89nRP6mgkWZM0JWfth_WlyBXMNbqnPAt0gWYQFnigKiPL6yqanph0yZVLOiBkOgn3LTRocshAxNCkbsmV0offppgeFUyFUamwUws6HwctSVDiBg2eWq9y4v-euRbReGx4WBrCGf3pNv4B6NQcY0DW2_3tUhHOkvWLSZ-KK6s-vMDuted9sDoC7-zAl5qGGmAwkDAQQRqkJfX2hLnBusJ4uTAKGL8owQSBxyiDhIu6wvtl14aK_hWU5dOtfI1zAA" alt=""/>
+</div>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div>
+        <div class="footer-logo">EcoShop</div>
+        <p class="footer-copy" style="margin-top:8px;">© 2026 EcoShop — consumo consciente para um planeta melhor</p>
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacidade</a>
+        <a href="#">Termos</a>
+        <a href="#">Contato</a>
+      </div>
+      <div class="footer-socials">
+        <a href="#" aria-label="Site"><span class="material-symbols-outlined" style="font-size:18px;">public</span></a>
+        <a href="#" aria-label="E-mail"><span class="material-symbols-outlined" style="font-size:18px;">mail</span></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Hamburger ──
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+
+// ── Tab switch ──
+function switchTab(tab) {
+  ['user','producer'].forEach(t => {
+    document.getElementById(`tab-${t}`).classList.toggle('active', t === tab);
+    document.getElementById(`panel-${t}`).classList.toggle('active', t === tab);
+  });
+}
+
+// ── Mostrar/ocultar senha ──
+function toggleSenha(inputId, eyeId) {
+  const inp = document.getElementById(inputId);
+  const eye = document.getElementById(eyeId);
+  const show = inp.type === 'text';
+  inp.type = show ? 'password' : 'text';
+  eye.textContent = show ? 'visibility' : 'visibility_off';
+}
+
+// ── Força da senha ──
+function strengthCheck(inputId, barId, labelId, wrapId) {
+  const inp  = document.getElementById(inputId);
+  const bar  = document.getElementById(barId);
+  const lbl  = document.getElementById(labelId);
+  const wrap = document.getElementById(wrapId);
+  inp.addEventListener('input', () => {
+    const v = inp.value;
+    if (!v) { wrap.style.display = 'none'; return; }
+    wrap.style.display = 'block';
+    let s = 0;
+    if (v.length >= 8) s++;
+    if (/[A-Z]/.test(v)) s++;
+    if (/[0-9]/.test(v)) s++;
+    if (/[^A-Za-z0-9]/.test(v)) s++;
+    const colors = ['#ba1a1a','#f57c00','#fbc02d','#388e3c'];
+    const labels = ['Muito fraca','Fraca','Média','Forte'];
+    const pcts   = ['25%','50%','75%','100%'];
+    const i = Math.max(0, s - 1);
+    bar.style.width = pcts[i];
+    bar.style.background = colors[i];
+    lbl.textContent = 'Força: ' + labels[i];
+  });
+}
+strengthCheck('u-senha','u-strength-bar','u-strength-label','u-strength-wrap');
+strengthCheck('p-senha','p-strength-bar','p-strength-label','p-strength-wrap');
+
+// ── Máscara telefone ──
+function maskTel(id) {
+  document.getElementById(id).addEventListener('input', function() {
+    let v = this.value.replace(/\D/g,'').slice(0,11);
+    if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+    else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+    else if (v.length > 0) v = `(${v}`;
+    this.value = v;
+  });
+}
+maskTel('u-tel');
+maskTel('p-tel');
+
+// ── Máscara CNPJ/CPF ──
+let docType = 'cnpj';
+function setDocType(type) {
+  docType = type;
+  document.getElementById('doc-cnpj').classList.toggle('active', type === 'cnpj');
+  document.getElementById('doc-cpf').classList.toggle('active', type === 'cpf');
+  const inp = document.getElementById('p-doc');
+  inp.value = '';
+  inp.placeholder = type === 'cnpj' ? '00.000.000/0000-00' : '000.000.000-00';
+  inp.maxLength    = type === 'cnpj' ? 18 : 14;
+}
+document.getElementById('p-doc').addEventListener('input', function() {
+  let v = this.value.replace(/\D/g,'');
+  if (docType === 'cnpj') {
+    v = v.slice(0,14);
+    if (v.length > 12) v = v.slice(0,2)+'.'+v.slice(2,5)+'.'+v.slice(5,8)+'/'+v.slice(8,12)+'-'+v.slice(12);
+    else if (v.length > 8) v = v.slice(0,2)+'.'+v.slice(2,5)+'.'+v.slice(5,8)+'/'+v.slice(8);
+    else if (v.length > 5) v = v.slice(0,2)+'.'+v.slice(2,5)+'.'+v.slice(5);
+    else if (v.length > 2) v = v.slice(0,2)+'.'+v.slice(2);
+  } else {
+    v = v.slice(0,11);
+    if (v.length > 9) v = v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6,9)+'-'+v.slice(9);
+    else if (v.length > 6) v = v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6);
+    else if (v.length > 3) v = v.slice(0,3)+'.'+v.slice(3);
+  }
+  this.value = v;
+});
+
+// ── Categorias ──
+function toggleCat(btn) { btn.classList.toggle('active'); }
+
+// ── Steps (produtor) ──
+let currentStep = 1;
+function goStep(next) {
+  // Validar step atual antes de avançar
+  if (next > currentStep && !validateStep(currentStep)) return;
+
+  const prev = currentStep;
+  currentStep = next;
+
+  // Atualizar painéis
+  document.querySelectorAll('.step-panel').forEach((p,i) => {
+    p.classList.toggle('active', i + 1 === next);
+  });
+
+  // Atualizar indicadores
+  [1,2,3].forEach(i => {
+    const circle = document.querySelector(`#ps-${i} .step-circle`);
+    const step   = document.getElementById(`ps-${i}`);
+    if (i < next) {
+      step.className = 'step done';
+      circle.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;font-variation-settings:\'FILL\' 1,\'wght\' 400,\'GRAD\' 0,\'opsz\' 24;">check</span>';
+    } else if (i === next) {
+      step.className = 'step active';
+      circle.textContent = i;
+    } else {
+      step.className = 'step';
+      circle.textContent = i;
+    }
+  });
+
+  [1,2].forEach(i => {
+    const line = document.getElementById(`pl-${i}`);
+    if (line) line.classList.toggle('done', next > i + 1 || (next > i && i < currentStep));
+  });
+
+  // Recalcular linhas
+  document.getElementById('pl-1').classList.toggle('done', next > 2);
+  document.getElementById('pl-2').classList.toggle('done', next > 3);
+
+  document.getElementById('p-errors').style.display = 'none';
+}
+
+function validateStep(step) {
+  const err = document.getElementById('p-errors');
+  let valid = true;
+
+  if (step === 1) {
+    ['p-nome','p-email','p-senha'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el.value.trim()) { el.classList.add('error'); valid = false; }
+      else el.classList.remove('error');
+    });
+    const em = document.getElementById('p-email');
+    if (em.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value)) {
+      em.classList.add('error'); valid = false;
+    }
+  } else if (step === 2) {
+    ['p-doc','p-tel','p-end'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el.value.trim()) { el.classList.add('error'); valid = false; }
+      else el.classList.remove('error');
+    });
+  }
+
+  err.style.display = valid ? 'none' : 'block';
+  return valid;
+}
+
+// ── Submit: Consumidor ──
+function submitUser() {
+  const ids = ['u-nome','u-email','u-senha'];
+  const err = document.getElementById('u-errors');
+  let valid = true;
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => el.classList.remove('error'), { once: true });
+    if (!el.value.trim()) { el.classList.add('error'); valid = false; }
+    else el.classList.remove('error');
+  });
+
+  const em = document.getElementById('u-email');
+  if (em.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value)) {
+    em.classList.add('error'); valid = false;
+  }
+
+  const terms = document.getElementById('u-terms');
+  if (!terms.checked) {
+    terms.style.outline = '2px solid var(--error)'; valid = false;
+  } else {
+    terms.style.outline = '';
+  }
+
+  err.style.display = valid ? 'none' : 'block';
+  if (!valid) return;
+
+  const btn = document.getElementById('u-btn');
+  btn.textContent = 'Cadastrando...';
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+
+  setTimeout(() => {
+    document.getElementById('u-form').style.display = 'none';
+    document.getElementById('u-success').style.display = 'block';
+    document.getElementById('u-success').scrollIntoView({ behavior:'smooth', block:'center' });
+  }, 1200);
+}
+
+// ── Submit: Produtor ──
+function submitProducer() {
+  const err = document.getElementById('p-errors');
+
+  // Validar desc
+  const desc = document.getElementById('p-desc');
+  if (!desc.value.trim()) { desc.classList.add('error'); err.style.display = 'block'; return; }
+  else desc.classList.remove('error');
+
+  // Ao menos 1 categoria
+  const cats = document.querySelectorAll('#cat-grid .cat-btn.active');
+  if (cats.length === 0) {
+    err.style.display = 'block';
+    err.innerHTML = '<strong>Selecione ao menos uma categoria de produto.</strong>';
+    return;
+  }
+
+  const terms = document.getElementById('p-terms');
+  if (!terms.checked) {
+    terms.style.outline = '2px solid var(--error)';
+    err.style.display = 'block';
+    err.innerHTML = '<strong>Aceite os termos para continuar.</strong>';
+    return;
+  }
+
+  err.style.display = 'none';
+
+  // Simular envio
+  setTimeout(() => {
+    document.querySelectorAll('#panel-producer .step-panel').forEach(p => p.style.display = 'none');
+    document.getElementById('p-steps').style.display = 'none';
+    document.getElementById('p-success').style.display = 'block';
+    document.getElementById('p-success').scrollIntoView({ behavior:'smooth', block:'center' });
+  }, 1000);
+}
+</script>
+
+
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar" aria-label="Carrinho de compras">
+  <div class="cart-header">
+    <div class="cart-header-left">
+      <span class="material-symbols-outlined" style="font-size:22px;color:var(--primary);font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">shopping_bag</span>
+      <span class="cart-title">Meu Carrinho</span>
+      <span class="cart-count-badge" id="cart-count-badge" style="display:none;">0</span>
+    </div>
+    <button class="cart-close" onclick="closeCart()" aria-label="Fechar carrinho">
+      <span class="material-symbols-outlined" style="font-size:20px;">close</span>
+    </button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none;"></div>
+</aside>
+<div id="cart-toast" class="cart-toast"></div>
+<script src="cart.js"></script>
+
+</body>
+</html>

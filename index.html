@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EcoShop — Produtos Sustentáveis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════ -->
+<header class="navbar">
+  <div class="container">
+    <div class="navbar-content">
+      <a href="index.html" class="navbar-logo">EcoShop</a>
+
+      <ul class="navbar-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="produtos.html">Produtos</a></li>
+        <li><a href="cadastro.html">Cadastro</a></li>
+      </ul>
+
+      <div class="navbar-right">
+        <div class="navbar-search">
+          <span class="material-symbols-outlined" style="font-size:18px;color:#707a6c;">search</span>
+          <input type="text" placeholder="Buscar produtos..."/>
+        </div>
+        <button class="navbar-btn">Entrar</button>
+        <button class="cart-nav-btn" onclick="openCart()" aria-label="Abrir carrinho">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          <span class="cart-nav-badge" style="display:none;">0</span>
+        </button>
+        <button class="navbar-hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <nav class="navbar-mobile-menu" id="mobile-menu">
+    <a href="index.html" class="active">Home</a>
+    <a href="produtos.html">Produtos</a>
+    <a href="cadastro.html">Cadastro</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <h1 class="hero-title">Produtos sustentáveis para um futuro melhor</h1>
+        <p class="hero-desc">Curadoria exclusiva de itens eco-friendly que unem design moderno, durabilidade e respeito ao meio ambiente. Transforme sua rotina com consciência.</p>
+        <div class="hero-buttons">
+          <a href="produtos.html" class="btn-primary">
+            <span class="material-symbols-outlined" style="font-size:18px;margin-right:6px;">storefront</span>
+            Explorar produtos
+          </a>
+          <a href="cadastro.html" class="btn-secondary">Criar conta grátis</a>
+        </div>
+      </div>
+
+      <div class="hero-image-wrapper">
+        <div class="hero-image-glow"></div>
+        <div class="hero-image-box">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhls0lymekc2XMxXZnx59yDl5tAt1dO4LO98TDDT-sIVV3wMlpspuDm1BPgt-RQ8Tm_Jm9l9kwkkS2mMUo3bM5KyFyKcVOGnI7U3NhCLxXs2qwGFqtWtBeFdiQqSMGOc0Al53dRqfYizkhnoK5h2LwgpuNs9GgYvRFmV-p5sh_h-0jAD123p58M_OyUt4Q-Gj4GcOHoNRAAwYdMlfT0ledw0eOKfHkoUnyr2JzjVzUsICEnnAtj8kqcQytzWBD95d1-2uOLRjSMA" alt="Planta emergindo do solo, representando sustentabilidade"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FEATURED PRODUCTS
+══════════════════════════════════════════ -->
+<section class="featured">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-eyebrow">Destaques da Semana</span>
+        <h2 class="section-title">Nossos Essenciais</h2>
+      </div>
+      <a href="produtos.html" class="section-link">
+        Ver coleção completa <span class="material-symbols-outlined" style="font-size:18px;">arrow_forward</span>
+      </a>
+    </div>
+
+    <div class="featured-grid">
+
+      <!-- Card 1 -->
+      <div class="product-card">
+        <div class="product-card-image">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHzfhg-ABZaT0M55wRUNTL-AEdOoKMUIVZvf30oS8dsEoNeDsmlg_Qle1Aloo_xVQ6a9e94n42vDk_sSz13_z6Yua2QDNxKqL_s1yOTCDzNSycbX1SP08g5idN0dkLAiTZtRwqfPuopWcLuEAD2HpVfLXNGrhXKsvu6kELoJH9N3AoymAeWOi45mhmPwyD1v0mzCipoeJ4oX3MXgDHZdcQcuBDAfLmeQb9clYXjzJa-vvwuAZ9u2Bh8WY_8aFZQbvod6zCFEI-cw" alt="Garrafa reutilizável"/>
+          <span class="product-badge">Sustentável</span>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <h3 class="product-card-name">Garrafa Reutilizável Stellar</h3>
+          <p class="product-card-desc">Aço inoxidável de parede dupla para manter sua bebida na temperatura ideal o dia todo.</p>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined star-empty">star</span>
+            <span class="stars-count">4.2 (119)</span>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">R$ 89,90</span>
+            <button class="btn-cart-icon" aria-label="Adicionar ao carrinho">
+              <span class="material-symbols-outlined" style="font-size:20px;">add_shopping_cart</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="product-card">
+        <div class="product-card-image">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAmxGvSGKoInvfrcQMyPuXt5TNCMORmEJx5StQF4RlB48QRunRjup4k45cfr8YzoUY7brfV3Jt5YLCWCN9G2x6cQWTfaO6V-5T4KshBHAzTSNgLMrdSN87x8BM4fLVufvEZPc_-SeKkWVyusfLaerM7yKK2zmXW4fkK22f4QGyinzpdB2J7f90B4BH1k-ij6L4prItbx9Us4RfCQxGUZ3TAvHxrcxyIvkR9eB2S6W-kqSZYeOwzzyjtrf3sDKvvCo7_TC0n1wgww" alt="Escovas de dente de bambu"/>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <h3 class="product-card-name">Escova de Dente Bambu (4un)</h3>
+          <p class="product-card-desc">Biodegradável e vegana. Uma troca simples que gera um grande impacto no planeta.</p>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="stars-count">4.8 (204)</span>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">R$ 32,00</span>
+            <button class="btn-cart-icon" aria-label="Adicionar ao carrinho">
+              <span class="material-symbols-outlined" style="font-size:20px;">add_shopping_cart</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="product-card">
+        <div class="product-card-image">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXHTDg52Zd24Y2lFC1TTnNhNIwR9g7lEAQLm9EGqHNgPzN0MOXuBt2YSjOia-CyCqEAVGH_VySZ_YyXc0B6JW5iuA9Zzz6bVwgkQMmzzT2otbp1ZZHZUW5A4hePpgygLgpClNGiJNUwkoNFBr3BwJI82MwYPOJDeQ-PJaAeq3RMlNeXZwGscko-rlZMvXLjpPZ9UgWLXtkXgk4tW0olWQOGDgBnQHNp3IzbmJzqru3VlTejdauzmqn7153g" alt="Ecobag"/>
+          <span class="product-badge">Popular</span>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <h3 class="product-card-name">Eco-Bag Algodão Orgânico</h3>
+          <p class="product-card-desc">Algodão orgânico reforçado para acompanhar você em todas as suas compras diárias.</p>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined star-empty">star</span>
+            <span class="stars-count">3.9 (25)</span>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">R$ 45,00</span>
+            <button class="btn-cart-icon" aria-label="Adicionar ao carrinho">
+              <span class="material-symbols-outlined" style="font-size:20px;">add_shopping_cart</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="product-card">
+        <div class="product-card-image">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuASgAoRfR4hUX4WttZWElSXOHcYkbv2pqu1BS6MTbWpD9ziDsLxfRY39pSNSfMKGqPAtmq6qLEuqHciFYzUKsSQrPcX3z_DTGrjcA926s-Sxnwxn3teklhMQtJpN1bQz9l77p0sTpv5WriagAt2gHnOdjwnrYCExTCLjKKeGMnuUMvapxWDzwpY3lhKTK3i9gh2-fGzkWYoWZJV-_oHnb33YBMCh-P_c8vtbVdO7zwqdOH5Ybb-wLirizTczVB9Tcf73zYkrLEoOQ" alt="Kit de canudos"/>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <h3 class="product-card-name">Kit Canudos Reutilizáveis</h3>
+          <p class="product-card-desc">Conjunto com 4 canudos de aço e escova de limpeza para levar sempre com você.</p>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined star-empty">star</span>
+            <span class="stars-count">4.1 (77)</span>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">R$ 32,00</span>
+            <button class="btn-cart-icon" aria-label="Adicionar ao carrinho">
+              <span class="material-symbols-outlined" style="font-size:20px;">add_shopping_cart</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="product-card">
+        <div class="product-card-image">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKSWxC6IEOk2fT3D6FdMEaPHpPOeHoU54dBRSDGJWUukYmjuuzE32lY-bHXBBueyCL-MJ4XLg9EXKKUD7dlAmhvDxkMxzagrgmltIbYJ4kK4UfPCJNgz6yg8JCEAZiOS3kDGorPvhzw9L2n-n2sADAp_OXwXpAVEOYf21JjI3F7em7EBuKX23yQ34rZ4oGvhh7HAboF_w51vtYm203Mr0ozWm9NnPYs4jHXaMIgamzMSy3KQnJcb0UvzwJVZ7-EmLLnMuJRngGig" alt="Caderno reciclado"/>
+          <span class="product-badge new">Novo</span>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <h3 class="product-card-name">Caderno de Fibras Naturais</h3>
+          <p class="product-card-desc">Papel 100% reciclado de alta gramatura, ideal para anotações e desenhos profissionais.</p>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined star-empty">star</span>
+            <span class="stars-count">4.3 (51)</span>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">R$ 54,90</span>
+            <button class="btn-cart-icon" aria-label="Adicionar ao carrinho">
+              <span class="material-symbols-outlined" style="font-size:20px;">add_shopping_cart</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="product-card">
+        <div class="product-card-image">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc6HImKNnNQqPFGHSi7nW262yNEUmWJblpsgRpMMelXVaoDKQs4r2MgEgaX1--ATKuW38VtR8w5Rv5DqktLPy6zkf9OeAhpumx2ZLW1RrvUthLS6gCqSZO8X5W8cRp8ip4R0pPKsgdW6LOu1luLZa775T2_P3lZpDRg8ow7ee9W1E1yUPii2eu3um6iRim0XivLLO87Gtsgv6eeQJHbUfHrqh7wKDIvtY5tEPsgr5JrtIZHbg9IgkQFk5pxs12fYcPXwbgy-webA" alt="Copo biodegradável"/>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <h3 class="product-card-name">Copo Biodegradável (4un)</h3>
+          <p class="product-card-desc">Feito de fibras naturais, resistente ao calor e totalmente compostável ao fim da vida útil.</p>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined star-empty">star</span>
+            <span class="stars-count">4.0 (38)</span>
+          </div>
+          <div class="product-card-footer">
+            <span class="product-card-price">R$ 28,00</span>
+            <button class="btn-cart-icon" aria-label="Adicionar ao carrinho">
+              <span class="material-symbols-outlined" style="font-size:20px;">add_shopping_cart</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     DEPOIMENTOS
+══════════════════════════════════════════ -->
+<section class="reviews">
+  <div class="container">
+    <div class="reviews-header">
+      <span class="section-eyebrow">Avaliações</span>
+      <h2 class="section-title">O que nossos clientes dizem</h2>
+      <p class="reviews-desc">Mais de 12.000 clientes satisfeitos em todo o Brasil</p>
+    </div>
+  </div>
+
+  <!-- Linha 1: esquerda → direita -->
+  <div class="testimonials-track-wrapper">
+    <div class="testimonials-track track-ltr" id="track1"></div>
+  </div>
+  <!-- Linha 2: direita → esquerda -->
+  <div class="testimonials-track-wrapper" style="margin-top:16px;">
+    <div class="testimonials-track track-rtl" id="track2"></div>
+  </div>
+
+  <div class="container">
+    <div class="reviews-stats">
+      <div class="reviews-stats-item">
+        <div class="reviews-stats-number" data-target="12400">0</div>
+        <div class="reviews-stats-label">Clientes satisfeitos</div>
+      </div>
+      <div class="reviews-stats-divider"></div>
+      <div class="reviews-stats-item">
+        <div class="reviews-stats-number" data-target="98">0</div>
+        <div class="reviews-stats-label">% de avaliações positivas</div>
+      </div>
+      <div class="reviews-stats-divider"></div>
+      <div class="reviews-stats-item">
+        <div class="reviews-stats-number" data-target="48">0</div>
+        <div class="reviews-stats-label">Produtos sustentáveis</div>
+      </div>
+      <div class="reviews-stats-divider"></div>
+      <div class="reviews-stats-item">
+        <div class="reviews-stats-number" data-target="5">0</div>
+        <div class="reviews-stats-label">Anos de experiência</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SOBRE NÓS
+══════════════════════════════════════════ -->
+<section class="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhls0lymekc2XMxXZnx59yDl5tAt1dO4LO98TDDT-sIVV3wMlpspuDm1BPgt-RQ8Tm_Jm9l9kwkkS2mMUo3bM5KyFyKcVOGnI7U3NhCLxXs2qwGFqtWtBeFdiQqSMGOc0Al53dRqfYizkhnoK5h2LwgpuNs9GgYvRFmV-p5sh_h-0jAD123p58M_OyUt4Q-Gj4GcOHoNRAAwYdMlfT0ledw0eOKfHkoUnyr2JzjVzUsICEnnAtj8kqcQytzWBD95d1-2uOLRjSMA" alt="Natureza e sustentabilidade" style="aspect-ratio:4/3;"/>
+      </div>
+      <div class="about-text-block">
+        <span class="section-eyebrow">Nossa história</span>
+        <h2 class="section-title" style="margin-bottom:20px;">Nascemos do amor pelo planeta</h2>
+        <p>A EcoShop surgiu em 2021 com uma missão simples: provar que é possível consumir bem sem prejudicar o meio ambiente. Somos um time apaixonado por design, natureza e inovação.</p>
+        <p>Cada produto em nosso catálogo passa por uma curadoria rigorosa de sustentabilidade — analisamos origem dos materiais, processo de fabricação, embalagem e impacto no descarte.</p>
+        <ul class="about-list">
+          <li><span class="material-symbols-outlined">eco</span> Embalagens 100% compostáveis</li>
+          <li><span class="material-symbols-outlined">local_shipping</span> Entregas com carbono neutro</li>
+          <li><span class="material-symbols-outlined">volunteer_activism</span> 1% do faturamento para ONGs ambientais</li>
+          <li><span class="material-symbols-outlined">verified</span> Certificado B Corp desde 2023</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FALE CONOSCO
+══════════════════════════════════════════ -->
+<section class="contact-section">
+  <div class="contact-content">
+    <span class="material-symbols-outlined contact-icon">chat</span>
+    <h2 class="contact-title">Tem alguma dúvida? Estamos aqui para ajudar!</h2>
+    <p class="contact-text">Nossa equipe responde em até 2 horas nos dias úteis. Entre em contato pelo WhatsApp ou e-mail e nós resolveremos tudo pra você.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <button class="whatsapp-btn">
+        <span class="material-symbols-outlined" style="font-size:20px;">chat_bubble</span>
+        Falar no WhatsApp
+      </button>
+      <a href="mailto:oi@ecoshop.com.br" style="display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,0.85);font-weight:600;font-size:14px;text-decoration:none;padding:15px 24px;border:2px solid rgba(255,255,255,0.35);border-radius:999px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.7)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.35)'">
+        <span class="material-symbols-outlined" style="font-size:18px;">mail</span>
+        oi@ecoshop.com.br
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div>
+        <div class="footer-logo">EcoShop</div>
+        <p class="footer-copy" style="margin-top:8px;">© 2026 EcoShop — consumo consciente para um planeta melhor</p>
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacidade</a>
+        <a href="#">Termos</a>
+        <a href="#">Contato</a>
+      </div>
+      <div class="footer-socials">
+        <a href="#" aria-label="Site"><span class="material-symbols-outlined" style="font-size:18px;">public</span></a>
+        <a href="#" aria-label="E-mail"><span class="material-symbols-outlined" style="font-size:18px;">mail</span></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Hamburger menu ──
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+
+// ── Favorite toggle ──
+document.querySelectorAll('.btn-fav').forEach(btn => {
+  btn.addEventListener('click', () => btn.classList.toggle('active'));
+});
+
+// ── Cart buttons ──
+document.querySelectorAll('.btn-cart-icon').forEach(btn => {
+  const card  = btn.closest('.product-card');
+  const name  = card.querySelector('.product-card-name')?.textContent.trim() || '';
+  const img   = card.querySelector('img')?.src || '';
+  const priceRaw = card.querySelector('.product-card-price')?.textContent || '0';
+  const price = parseFloat(priceRaw.replace('R$','').replace('.','').replace(',','.').trim()) || 0;
+  const id    = name.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  btn.addEventListener('click', () => cartAdd({ id, name, price, img }));
+});
+
+// ── Testimonials ──
+const testimonials = [
+  { name:'Ana S.', city:'São Paulo', rating:5, badge:'Comprador verificado', text:'Os produtos chegaram super bem embalados e sem nenhum plástico! A garrafa térmica é linda e mantém o café quente por horas. Já indiquei para todo mundo.' },
+  { name:'Carlos M.', city:'Rio de Janeiro', rating:5, badge:'Comprador verificado', text:'Comprei o kit de escovas de bambu e fiquei impressionado com a qualidade. Minha filha adorou as cores e já pediu mais uma unidade!' },
+  { name:'Fernanda L.', city:'Belo Horizonte', rating:5, badge:'Eco-entusiasta', text:'A Eco-Bag é resistente demais! Uso para fazer compras no mercado toda semana há 8 meses e está impecável. Vale cada centavo.' },
+  { name:'Rafael T.', city:'Curitiba', rating:5, badge:'Comprador verificado', text:'Recebi os canudos de aço em 2 dias! A embalagem era toda de papel kraft e havia um bilhetinho personalizado. Detalhe que encanta.' },
+  { name:'Juliana P.', city:'Porto Alegre', rating:5, badge:'Membro Premium', text:'Os panos de cera são incríveis. Substituí completamente o plástico filme da cozinha. A qualidade é excelente e já lavei dezenas de vezes.' },
+  { name:'Marcelo F.', city:'Recife', rating:5, badge:'Comprador verificado', text:'Entrega super rápida e produto exatamente como descrito. O caderno de fibras tem um toque incrível, parece papel artesanal de luxo.' },
+  { name:'Isabela C.', city:'Fortaleza', rating:5, badge:'Eco-entusiasta', text:'Finalmente um e-commerce eco-friendly que não decepciona! Já fiz 4 pedidos e todos chegaram perfeitos. O cesto artesanal é uma obra de arte.' },
+  { name:'Bruno A.', city:'Salvador', rating:4, badge:'Comprador verificado', text:'Comprei o kit sabonetes para dar de presente e a pessoa amou! A embalagem é linda, parece um presente de loja física. Super recomendo.' },
+];
+
+function buildCard(t) {
+  return `<div class="tcard">
+    <div class="tcard-stars">${'★'.repeat(t.rating)}${'☆'.repeat(5-t.rating)}</div>
+    <p class="tcard-body">${t.text}</p>
+    <div class="tcard-footer">
+      <div class="tcard-avatar">${t.name.split(' ').map(n=>n[0]).join('')}</div>
+      <div>
+        <div class="tcard-name">${t.name}</div>
+        <div class="tcard-city">${t.city}</div>
+      </div>
+      <span class="tcard-badge">${t.badge}</span>
+    </div>
+  </div>`;
+}
+
+function fillTrack(id, items) {
+  const track = document.getElementById(id);
+  const doubled = [...items, ...items];
+  track.innerHTML = doubled.map(buildCard).join('');
+}
+
+const half = Math.ceil(testimonials.length / 2);
+fillTrack('track1', testimonials.slice(0, half).concat(testimonials.slice(half)));
+fillTrack('track2', testimonials.slice(half).concat(testimonials.slice(0, half)));
+
+// ── Count-up animation ──
+const counters = document.querySelectorAll('[data-target]');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    const target = +el.dataset.target;
+    const suffix = target >= 100 ? '' : (target === 5 ? '' : '');
+    let start = 0;
+    const step = target / 60;
+    const interval = setInterval(() => {
+      start = Math.min(start + step, target);
+      el.textContent = Math.floor(start).toLocaleString('pt-BR') + (target >= 12000 ? '+' : target === 98 ? '%' : '');
+      if (start >= target) clearInterval(interval);
+    }, 20);
+    observer.unobserve(el);
+  });
+}, { threshold: 0.5 });
+
+counters.forEach(c => observer.observe(c));
+</script>
+
+
+<!-- ══════════════════════════════════════════
+     CARRINHO SIDEBAR
+══════════════════════════════════════════ -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar" aria-label="Carrinho de compras">
+  <div class="cart-header">
+    <div class="cart-header-left">
+      <span class="material-symbols-outlined" style="font-size:22px;color:var(--primary);font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">shopping_bag</span>
+      <span class="cart-title">Meu Carrinho</span>
+      <span class="cart-count-badge" id="cart-count-badge" style="display:none;">0</span>
+    </div>
+    <button class="cart-close" onclick="closeCart()" aria-label="Fechar carrinho">
+      <span class="material-symbols-outlined" style="font-size:20px;">close</span>
+    </button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none;"></div>
+</aside>
+<div id="cart-toast" class="cart-toast"></div>
+
+<script src="cart.js"></script>
+
+</body>
+</html>

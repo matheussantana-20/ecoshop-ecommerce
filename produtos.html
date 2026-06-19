@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EcoShop — Produtos Sustentáveis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════ -->
+<header class="navbar">
+  <div class="container">
+    <div class="navbar-content">
+      <a href="index.html" class="navbar-logo">EcoShop</a>
+
+      <ul class="navbar-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="produtos.html" class="active">Produtos</a></li>
+        <li><a href="cadastro.html">Cadastro</a></li>
+      </ul>
+
+      <div class="navbar-right">
+        <div class="navbar-search">
+          <span class="material-symbols-outlined" style="font-size:18px;color:#707a6c;">search</span>
+          <input type="text" placeholder="Buscar produtos..." id="search-input"/>
+        </div>
+        <button class="navbar-btn">Entrar</button>
+        <button class="cart-nav-btn" onclick="openCart()" aria-label="Abrir carrinho">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          <span class="cart-nav-badge" style="display:none;">0</span>
+        </button>
+        <button class="navbar-hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <nav class="navbar-mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="produtos.html" class="active">Produtos</a>
+    <a href="cadastro.html">Cadastro</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════════
+     PAGE HERO
+══════════════════════════════════════════ -->
+<section class="page-hero">
+  <div class="container">
+    <h1 class="page-hero-title">Nossos Produtos Sustentáveis</h1>
+    <p class="page-hero-desc">Curadoria exclusiva de itens eco-friendly para transformar seu dia a dia. Da sua casa ao escritório, cada escolha conta para um futuro mais verde.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FILTER BAR
+══════════════════════════════════════════ -->
+<div class="container">
+  <div class="filter-bar" id="filter-bar">
+    <button class="filter-btn active" data-filter="todos">Todos</button>
+    <button class="filter-btn" data-filter="casa">Casa</button>
+    <button class="filter-btn" data-filter="escritorio">Escritório</button>
+    <button class="filter-btn" data-filter="higiene">Higiene</button>
+    <button class="filter-btn" data-filter="reutilizavel">Reutilizáveis</button>
+    <button class="filter-btn" data-filter="reciclado">Reciclados</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PRODUCT GRID
+══════════════════════════════════════════ -->
+<section class="products-section">
+  <div class="container">
+    <div class="product-grid-4" id="product-grid">
+
+      <!-- Card 1 -->
+      <div class="product-card" data-category="reutilizavel">
+        <div class="product-card-image" style="cursor:pointer;" onclick="window.location='produto.html'">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2FhhojGgSIp1TeiLRAyqF-yttoUHERojfKE8Du59NianVi4gavaQYs2bJ6hkCnqZREHuuhjH6hqFdWkTP2c2HQUbsWdZ-Zt9PnHYn3zGQgumf-XuzHW-4DTO_TXoLZpqg93gHUoCbQot8tj5PdKCZ_3mKeO-xDn9qEqntcAmhk7I-HObyQ2BhXY1NOFXuHe5nLj7yCaD7wX2ABf1uoZXLcZhpBPPMcecaYzE_xlhtIqwDzi8hVwLiB1hwG5JoFB8q4U08G9RpgQ" alt="Copo de Fibra de Bambu"/>
+          <span class="product-badge">Sustentável</span>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-meta">
+            <span></span>
+            <span class="product-card-stock">Estoque: 12</span>
+          </div>
+          <h3 class="product-card-name" style="cursor:pointer;" onclick="window.location='produto.html'">Copo de Fibra de Bambu</h3>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined star-empty">star</span>
+            <span class="stars-count">4.0 (38)</span>
+          </div>
+          <span class="product-card-price">R$ 45,90</span>
+          <button class="btn-cart-full">
+            <span class="material-symbols-outlined" style="font-size:16px;">shopping_cart</span>
+            Adicionar ao carrinho
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="product-card" data-category="higiene">
+        <div class="product-card-image" style="cursor:pointer;" onclick="window.location='produto.html'">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-XroJ5_068tD3rQxMOeLO3gQ2gwzIfrvzRK5BM10ZnaT0bhe4y2qfjOZLW-ipp1ayDx28gvhGmOyzUgslaVVKZRS2xLP_vw9XJIGUTslUEegUU__Ngmp4FciWAI94VghnyHXccuRULXyn9VqU8y0cHUyu9L2I8CWghbXuhgbMp507Yk0tQ7cY0pMuVEjKrcCL3TV2ID5YeIAtK53frq0aLfh77EpBTdGk7LT2elYgR9ZDWROwT2pV3xaVkaEuX4KsGN8OYlcteQ" alt="Kit Sabonetes Botânicos"/>
+          <span class="product-badge">Orgânico</span>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-meta">
+            <span></span>
+            <span class="product-card-stock">Estoque: 45</span>
+          </div>
+          <h3 class="product-card-name" style="cursor:pointer;" onclick="window.location='produto.html'">Kit Sabonetes Botânicos</h3>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="stars-count">5.0 (62)</span>
+          </div>
+          <span class="product-card-price">R$ 78,00</span>
+          <button class="btn-cart-full">
+            <span class="material-symbols-outlined" style="font-size:16px;">shopping_cart</span>
+            Adicionar ao carrinho
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 3 — low stock -->
+      <div class="product-card" data-category="reutilizavel">
+        <div class="product-card-image" style="cursor:pointer;" onclick="window.location='produto.html'">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDn7NRgpTySUEmyitzLqIb_FVdfgvFuZ-TFEhLUqaK1cmVePnPvIyKvUPzYoN1XNk6QzqpHGGb_t7IuFN3wmocQpu-7iKr7i6Zru0oI6lqbBKPlnVakuoTrczUk9nrBN8HuenUcxoS69Z0oIo8CFt3xd9kIIFcAb1nk2t5zRogDlfGfjizr_WCQ3zdoMkJbaiwUxl9Zhaki76L4nzpZn_PBBit_8LRQ8OJjc4XvgYV62QfL69YGtaDRlkODj5C1MLjqe_0xVI74nA" alt="Garrafa Térmica Stellar"/>
+          <span class="product-badge">Reutilizável</span>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+          <div class="low-stock-bar">
+            <span class="material-symbols-outlined">warning</span> Últimas 8 unidades
+          </div>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-meta"><span></span></div>
+          <h3 class="product-card-name" style="cursor:pointer;" onclick="window.location='produto.html'">Garrafa Térmica Stellar</h3>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined star-empty">star</span>
+            <span class="stars-count">4.2 (119)</span>
+          </div>
+          <span class="product-card-price">R$ 124,90</span>
+          <button class="btn-cart-full">
+            <span class="material-symbols-outlined" style="font-size:16px;">shopping_cart</span>
+            Adicionar ao carrinho
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="product-card" data-category="reciclado">
+        <div class="product-card-image" style="cursor:pointer;" onclick="window.location='produto.html'">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYT4Hu6eNV0OElL3bNDkYJwLno2eDKqs3u3Sa9BxFWbw4eQmzxINyaSpOxhpZ_9J0QMiIVcOoBmd72neqJ3B33rWxnsVYxA2mfiWIm3lnFA-Vog-17T8T_TvuaOYa1y9YBXSnnZKmQU1jsV9ad2XiNioJ9sv3hdnh9goidVpdisk2cdM3bn7DX5T85-pEHY0cf2ebuyKZ8r-d7MfaUqyG099M6t_6oX9EbtWqpVZFarTzNIIvWAuNrmyw3sMrzTDPKNplwVM0DlA" alt="Eco-Bag de Nylon Reciclado"/>
+          <span class="product-badge">Reciclado</span>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-meta">
+            <span></span>
+            <span class="product-card-stock">Estoque: 22</span>
+          </div>
+          <h3 class="product-card-name" style="cursor:pointer;" onclick="window.location='produto.html'">Eco-Bag de Nylon Reciclado</h3>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined star-empty">star</span>
+            <span class="stars-count">3.9 (25)</span>
+          </div>
+          <span class="product-card-price">R$ 59,90</span>
+          <button class="btn-cart-full">
+            <span class="material-symbols-outlined" style="font-size:16px;">shopping_cart</span>
+            Adicionar ao carrinho
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="product-card" data-category="higiene">
+        <div class="product-card-image" style="cursor:pointer;" onclick="window.location='produto.html'">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvWn6Rq8Iawcy1NIjlJhlHC0YGoOWqmr7hjmIaWHXxDjUThzTrjhCunczMC4FPP8eE8EAtqC7RQUkO0AGQePGDWgdzyoNgnn8nmFE9WAqFdWmB8_YcA76H68BPLhUiBPXE9NTcr-5ovvRx7_JK3_M58HnOyx1yJG3i0K0iXCBqFa1D8LFc8ntRRtf4uazu7KixlMBUVV1Ae5DCVVU_gWyMxkqIcBB2WM4VQcS8TRjJFvh5TkM3RYYXR8VuF4UtAv3R90HHiTwQ5A" alt="Escova de Dente Bambu"/>
+          <span class="product-badge">Sustentável</span>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-meta">
+            <span></span>
+            <span class="product-card-stock">Estoque: 150</span>
+          </div>
+          <h3 class="product-card-name" style="cursor:pointer;" onclick="window.location='produto.html'">Escova de Dente Bambu (4un)</h3>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="stars-count">4.8 (204)</span>
+          </div>
+          <span class="product-card-price">R$ 32,00</span>
+          <button class="btn-cart-full">
+            <span class="material-symbols-outlined" style="font-size:16px;">shopping_cart</span>
+            Adicionar ao carrinho
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="product-card" data-category="casa">
+        <div class="product-card-image" style="cursor:pointer;" onclick="window.location='produto.html'">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6AnWn8zhuKZywMdsWRUGA7u8OAgc8HJUthn-7jwrTHYe1LhE7FjFR_JXXNzFhOCYrk0nzJyyvFosfhrlD8RAd_BRFrKeVE_4M-T-ZUnlSVOSBKaA5Hh95oaIwHZO3l6CMoYTFCxDFMQw1VP7LaRlrJeBDY1j56zXklhBW2ZSwUY5NS7NL-jcby_HGIXOr6Ea8xSbGvyC3EL3FepjTvR4QqDKI6gVzXulVcHgV7tNmx3Cj7hP20-09_EQ8F3yl8X8DK3GdrfGOMw" alt="Kit Panos de Cera de Abelha"/>
+          <span class="product-badge">Biodegradável</span>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-meta">
+            <span></span>
+            <span class="product-card-stock">Estoque: 34</span>
+          </div>
+          <h3 class="product-card-name" style="cursor:pointer;" onclick="window.location='produto.html'">Kit Panos de Cera de Abelha</h3>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined star-empty">star</span>
+            <span class="stars-count">4.1 (77)</span>
+          </div>
+          <span class="product-card-price">R$ 65,50</span>
+          <button class="btn-cart-full">
+            <span class="material-symbols-outlined" style="font-size:16px;">shopping_cart</span>
+            Adicionar ao carrinho
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="product-card" data-category="escritorio">
+        <div class="product-card-image" style="cursor:pointer;" onclick="window.location='produto.html'">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb-ivWiEtrc6TljDYPNm-k2ljPRQD62l-UqHPKx6jaPbeY_eR3tbUOFp1c0nPx6Kbv4LFQ6CntMA4jo8PgfHfCZIWiUxsIpxRpfIWXZCeXnSbqhOy3vecK27lx3ilrUo930tUQD7PuM7-kxQ6daNdr9iLp-scrXQybU9Aypq5fZvBO575wQOgXJUn2N2ldUMv7fvqy4ODIa-IKsb1b648rFEDvBSZD8siW9HQTEyCwbnrPDxPkKwREdQNmMbq0EvJtnKagyuGBEg" alt="Caderno de Fibras Naturais"/>
+          <span class="product-badge">Reciclado</span>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-meta">
+            <span></span>
+            <span class="product-card-stock">Estoque: 15</span>
+          </div>
+          <h3 class="product-card-name" style="cursor:pointer;" onclick="window.location='produto.html'">Caderno de Fibras Naturais</h3>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined star-empty">star</span>
+            <span class="stars-count">4.3 (51)</span>
+          </div>
+          <span class="product-card-price">R$ 42,90</span>
+          <button class="btn-cart-full">
+            <span class="material-symbols-outlined" style="font-size:16px;">shopping_cart</span>
+            Adicionar ao carrinho
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 8 — low stock -->
+      <div class="product-card" data-category="casa">
+        <div class="product-card-image" style="cursor:pointer;" onclick="window.location='produto.html'">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmkqkn1WXkRZW6Df6jjw308ZfRTlQq4zxtSK9YK6oWiD4Yxnhe3_GYHuZP9IBmBzH96DQZIAcNXmXJWNsXOT23CnLhPb9jYW4w6ZaS4BjhNL3jIDIaj0Xwnv7PmkDJ2Z5KjmWnc7gFkIfbGZNk-PNCg8q3oFQ3uklcV2kG0hH0YAVM7U8C9IDbpyAEribQg-5KU-1ass0XSIF1jI7wguRyhbz4h66puosVkPi0cS_IU2YzhKbiIWa3iripRyqUoiBO63s2CzG-1A" alt="Cesto de Fibras Orgânicas"/>
+          <span class="product-badge">Artesanal</span>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+          <div class="low-stock-bar">
+            <span class="material-symbols-outlined">warning</span> Últimas 5 unidades
+          </div>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-meta"><span></span></div>
+          <h3 class="product-card-name" style="cursor:pointer;" onclick="window.location='produto.html'">Cesto de Fibras Orgânicas</h3>
+          <div class="stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="stars-count">4.9 (18)</span>
+          </div>
+          <span class="product-card-price">R$ 189,00</span>
+          <button class="btn-cart-full">
+            <span class="material-symbols-outlined" style="font-size:16px;">shopping_cart</span>
+            Adicionar ao carrinho
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- No results message (hidden by default) -->
+    <div id="no-results" style="display:none;text-align:center;padding:64px 0;color:var(--on-variant);">
+      <span class="material-symbols-outlined" style="font-size:48px;display:block;margin-bottom:16px;color:var(--outline-var);">search_off</span>
+      <p style="font-size:16px;">Nenhum produto encontrado para este filtro.</p>
+    </div>
+
+    <div class="load-more">
+      <button class="load-more-btn">Carregar mais produtos</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div>
+        <div class="footer-logo">EcoShop</div>
+        <p class="footer-copy" style="margin-top:8px;">© 2026 EcoShop — consumo consciente para um planeta melhor</p>
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacidade</a>
+        <a href="#">Termos</a>
+        <a href="#">Contato</a>
+      </div>
+      <div class="footer-socials">
+        <a href="#" aria-label="Site"><span class="material-symbols-outlined" style="font-size:18px;">public</span></a>
+        <a href="#" aria-label="E-mail"><span class="material-symbols-outlined" style="font-size:18px;">mail</span></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Hamburger ──
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+
+// ── Favorite toggle ──
+document.querySelectorAll('.btn-fav').forEach(btn => {
+  btn.addEventListener('click', () => btn.classList.toggle('active'));
+});
+
+// ── Cart buttons ──
+document.querySelectorAll('.btn-cart-full').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('added')) return;
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;font-variation-settings:\'FILL\' 1,\'wght\' 400,\'GRAD\' 0,\'opsz\' 24;">check_circle</span> Adicionado!';
+    btn.classList.add('added');
+    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('added'); }, 2000);
+  });
+});
+
+// ── Filter ──
+const filterBtns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('#product-grid .product-card');
+const noResults = document.getElementById('no-results');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    let visible = 0;
+    cards.forEach(card => {
+      const show = filter === 'todos' || card.dataset.category === filter;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+  });
+});
+
+// ── Search filter ──
+const searchInput = document.getElementById('search-input');
+if (searchInput) {
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase().trim();
+    let visible = 0;
+    cards.forEach(card => {
+      const name = card.querySelector('.product-card-name')?.textContent.toLowerCase() || '';
+      const show = name.includes(q);
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+  });
+}
+</script>
+
+
+<!-- CARRINHO SIDEBAR -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar" aria-label="Carrinho de compras">
+  <div class="cart-header">
+    <div class="cart-header-left">
+      <span class="material-symbols-outlined" style="font-size:22px;color:var(--primary);font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">shopping_bag</span>
+      <span class="cart-title">Meu Carrinho</span>
+      <span class="cart-count-badge" id="cart-count-badge" style="display:none;">0</span>
+    </div>
+    <button class="cart-close" onclick="closeCart()" aria-label="Fechar carrinho">
+      <span class="material-symbols-outlined" style="font-size:20px;">close</span>
+    </button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none;"></div>
+</aside>
+<div id="cart-toast" class="cart-toast"></div>
+<script src="cart.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EcoShop — Detalhe do Produto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── Breadcrumb ── */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 20px 0 0;
+      font-size: 13px;
+      color: var(--on-variant);
+    }
+    .breadcrumb a { color: var(--on-variant); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--primary); }
+    .breadcrumb .material-symbols-outlined { font-size: 14px; }
+    .breadcrumb-current { color: var(--on-surface); font-weight: 600; }
+
+    /* ── Product detail layout ── */
+    .product-detail {
+      padding: 24px 0 80px;
+    }
+    .product-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: start;
+      margin-top: 24px;
+    }
+
+    /* ── Gallery ── */
+    .gallery { display: flex; flex-direction: column; gap: 12px; }
+    .gallery-main {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--surface-mid);
+      aspect-ratio: 1;
+    }
+    .gallery-main img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: opacity .3s;
+    }
+    .gallery-badge {
+      position: absolute;
+      top: 16px; left: 16px;
+      background: var(--primary-fixed);
+      color: #24502c;
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px; font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .gallery-fav {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.9);
+      backdrop-filter: blur(4px);
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, transform .15s;
+    }
+    .gallery-fav:hover { background: #fff; transform: scale(1.08); }
+    .gallery-fav .material-symbols-outlined { font-size: 20px; color: var(--primary); }
+    .gallery-fav.active .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;
+      color: #e53935;
+    }
+    .gallery-thumbs {
+      display: flex;
+      gap: 10px;
+    }
+    .gallery-thumb {
+      width: 72px; height: 72px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color .2s, transform .15s;
+      flex-shrink: 0;
+    }
+    .gallery-thumb:hover { transform: scale(1.05); }
+    .gallery-thumb.active { border-color: var(--primary); }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Info panel ── */
+    .product-info { display: flex; flex-direction: column; gap: 20px; }
+
+    .product-info-category {
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--primary);
+    }
+
+    .product-info-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 800;
+      color: var(--on-surface);
+      line-height: 1.2;
+    }
+
+    .product-info-rating {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .rating-stars { display: flex; gap: 2px; color: #d4b800; }
+    .rating-stars .material-symbols-outlined {
+      font-size: 18px;
+      font-variation-settings: 'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;
+    }
+    .rating-stars .star-empty { color: #d4d4d4; }
+    .rating-number { font-weight: 700; font-size: 14px; color: var(--on-surface); }
+    .rating-count  { font-size: 13px; color: var(--on-variant); }
+    .rating-divider { width: 1px; height: 14px; background: var(--outline-var); }
+    .stock-tag {
+      font-size: 12px; font-weight: 700; font-family: 'Manrope', sans-serif;
+      padding: 2px 10px; border-radius: 999px;
+    }
+    .stock-ok  { background: #e8f5e9; color: #2e7d32; }
+    .stock-low { background: #fff3e0; color: #e65100; }
+
+    .product-info-price {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .price-main {
+      font-family: 'Manrope', sans-serif;
+      font-size: 36px; font-weight: 800;
+      color: var(--primary);
+    }
+    .price-old {
+      font-size: 16px;
+      color: var(--outline);
+      text-decoration: line-through;
+    }
+    .price-discount {
+      background: #fce4ec;
+      color: #c62828;
+      font-size: 12px; font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-family: 'Manrope', sans-serif;
+    }
+    .price-installment {
+      font-size: 13px;
+      color: var(--on-variant);
+      margin-top: -12px;
+    }
+
+    /* ── Quantity selector ── */
+    .qty-selector {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1.5px solid var(--outline-var);
+      border-radius: 12px;
+      overflow: hidden;
+      width: fit-content;
+    }
+    .qty-selector-btn {
+      width: 44px; height: 44px;
+      border: none; background: transparent;
+      font-size: 20px; font-weight: 700;
+      color: var(--on-surface);
+      cursor: pointer;
+      transition: background .18s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .qty-selector-btn:hover { background: var(--surface-mid); }
+    .qty-selector-val {
+      width: 52px;
+      text-align: center;
+      font-family: 'Manrope', sans-serif;
+      font-size: 16px; font-weight: 700;
+      color: var(--on-surface);
+      border-left: 1.5px solid var(--outline-var);
+      border-right: 1.5px solid var(--outline-var);
+    }
+
+    /* ── CTA buttons ── */
+    .product-cta { display: flex; flex-direction: column; gap: 10px; }
+    .btn-add-cart {
+      width: 100%;
+      padding: 16px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 15px; font-weight: 700;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: opacity .2s, transform .15s;
+      box-shadow: 0 4px 20px rgba(13,99,27,.28);
+    }
+    .btn-add-cart:hover { opacity: .9; }
+    .btn-add-cart:active { transform: scale(.98); }
+    .btn-add-cart.added { background: #335f3a; }
+    .btn-buy-now {
+      width: 100%;
+      padding: 15px;
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 15px; font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .btn-buy-now:hover { background: var(--surface-low); }
+
+    /* ── Perks chips ── */
+    .perks {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .perk {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--surface-low);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 12px; font-weight: 600;
+      color: var(--on-variant);
+      font-family: 'Manrope', sans-serif;
+    }
+    .perk .material-symbols-outlined { font-size: 15px; color: var(--primary); }
+
+    /* ── Description tabs ── */
+    .detail-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--outline-var);
+      margin-bottom: 24px;
+    }
+    .detail-tab {
+      padding: 10px 20px;
+      border: none;
+      background: transparent;
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px; font-weight: 600;
+      color: var(--on-variant);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color .2s, border-color .2s;
+    }
+    .detail-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .detail-panel { display: none; }
+    .detail-panel.active { display: block; animation: fadeIn .25s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .detail-desc {
+      font-size: 15px;
+      color: var(--on-variant);
+      line-height: 1.8;
+    }
+    .detail-desc p { margin-bottom: 12px; }
+    .detail-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .detail-list li {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; color: var(--on-variant);
+    }
+    .detail-list .material-symbols-outlined { color: var(--primary); font-size: 18px; }
+
+    /* Specs table */
+    .specs-table { width: 100%; border-collapse: collapse; }
+    .specs-table tr:nth-child(even) { background: var(--surface-low); }
+    .specs-table td {
+      padding: 10px 14px;
+      font-size: 14px;
+      border-bottom: 1px solid var(--outline-var);
+    }
+    .specs-table td:first-child {
+      font-weight: 700;
+      color: var(--on-surface);
+      width: 40%;
+    }
+    .specs-table td:last-child { color: var(--on-variant); }
+
+    /* Reviews */
+    .review-item {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--outline-var);
+    }
+    .review-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+    .review-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #c8e6c9;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 12px; color: #2e7d32;
+    }
+    .review-name { font-weight: 700; font-size: 14px; color: var(--on-surface); }
+    .review-date { font-size: 12px; color: var(--outline); margin-left: auto; }
+    .review-stars { display: flex; gap: 2px; color: #d4b800; }
+    .review-stars .material-symbols-outlined {
+      font-size: 14px;
+      font-variation-settings: 'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;
+    }
+    .review-body { font-size: 14px; color: var(--on-variant); line-height: 1.65; }
+    .review-verified {
+      font-size: 11px; font-weight: 700;
+      color: #2e7d32; background: #e8f5e9;
+      padding: 2px 8px; border-radius: 999px;
+    }
+
+    /* ── Related products ── */
+    .related { padding: 64px 0; background: #fff; border-top: 1px solid var(--outline-var); }
+    .related-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .product-detail-grid { grid-template-columns: 1fr; gap: 32px; }
+      .related-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 520px) {
+      .price-main { font-size: 28px; }
+      .related-grid { grid-template-columns: repeat(2,1fr); gap: 12px; }
+      .gallery-thumbs { overflow-x: auto; }
+      .detail-tab { padding: 8px 14px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════ -->
+<header class="navbar">
+  <div class="container">
+    <div class="navbar-content">
+      <a href="index.html" class="navbar-logo">EcoShop</a>
+      <ul class="navbar-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="produtos.html" class="active">Produtos</a></li>
+        <li><a href="cadastro.html">Cadastro</a></li>
+      </ul>
+      <div class="navbar-right">
+        <div class="navbar-search">
+          <span class="material-symbols-outlined" style="font-size:18px;color:#707a6c;">search</span>
+          <input type="text" placeholder="Buscar produtos..."/>
+        </div>
+        <button class="navbar-btn">Entrar</button>
+        <button class="cart-nav-btn" onclick="openCart()" aria-label="Abrir carrinho">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          <span class="cart-nav-badge" style="display:none;">0</span>
+        </button>
+        <button class="navbar-hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <nav class="navbar-mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="produtos.html" class="active">Produtos</a>
+    <a href="cadastro.html">Cadastro</a>
+  </nav>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb" aria-label="Caminho">
+    <a href="index.html">Home</a>
+    <span class="material-symbols-outlined">chevron_right</span>
+    <a href="produtos.html">Produtos</a>
+    <span class="material-symbols-outlined">chevron_right</span>
+    <span class="breadcrumb-current" id="bc-name">Garrafa Térmica Stellar</span>
+  </nav>
+
+  <!-- ── PRODUCT DETAIL ── -->
+  <section class="product-detail">
+    <div class="product-detail-grid">
+
+      <!-- GALLERY -->
+      <div class="gallery">
+        <div class="gallery-main">
+          <img id="main-img"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDn7NRgpTySUEmyitzLqIb_FVdfgvFuZ-TFEhLUqaK1cmVePnPvIyKvUPzYoN1XNk6QzqpHGGb_t7IuFN3wmocQpu-7iKr7i6Zru0oI6lqbBKPlnVakuoTrczUk9nrBN8HuenUcxoS69Z0oIo8CFt3xd9kIIFcAb1nk2t5zRogDlfGfjizr_WCQ3zdoMkJbaiwUxl9Zhaki76L4nzpZn_PBBit_8LRQ8OJjc4XvgYV62QfL69YGtaDRlkODj5C1MLjqe_0xVI74nA"
+            alt="Garrafa Térmica Stellar"/>
+          <span class="gallery-badge">Reutilizável</span>
+          <button class="gallery-fav" id="gallery-fav" aria-label="Favoritar">
+            <span class="material-symbols-outlined">favorite</span>
+          </button>
+        </div>
+
+        <div class="gallery-thumbs">
+          <div class="gallery-thumb active" onclick="setThumb(this, 'https://lh3.googleusercontent.com/aida-public/AB6AXuDn7NRgpTySUEmyitzLqIb_FVdfgvFuZ-TFEhLUqaK1cmVePnPvIyKvUPzYoN1XNk6QzqpHGGb_t7IuFN3wmocQpu-7iKr7i6Zru0oI6lqbBKPlnVakuoTrczUk9nrBN8HuenUcxoS69Z0oIo8CFt3xd9kIIFcAb1nk2t5zRogDlfGfjizr_WCQ3zdoMkJbaiwUxl9Zhaki76L4nzpZn_PBBit_8LRQ8OJjc4XvgYV62QfL69YGtaDRlkODj5C1MLjqe_0xVI74nA')">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDn7NRgpTySUEmyitzLqIb_FVdfgvFuZ-TFEhLUqaK1cmVePnPvIyKvUPzYoN1XNk6QzqpHGGb_t7IuFN3wmocQpu-7iKr7i6Zru0oI6lqbBKPlnVakuoTrczUk9nrBN8HuenUcxoS69Z0oIo8CFt3xd9kIIFcAb1nk2t5zRogDlfGfjizr_WCQ3zdoMkJbaiwUxl9Zhaki76L4nzpZn_PBBit_8LRQ8OJjc4XvgYV62QfL69YGtaDRlkODj5C1MLjqe_0xVI74nA" alt="Foto 1"/>
+          </div>
+          <div class="gallery-thumb" onclick="setThumb(this, 'https://lh3.googleusercontent.com/aida-public/AB6AXuA2FhhojGgSIp1TeiLRAyqF-yttoUHERojfKE8Du59NianVi4gavaQYs2bJ6hkCnqZREHuuhjH6hqFdWkTP2c2HQUbsWdZ-Zt9PnHYn3zGQgumf-XuzHW-4DTO_TXoLZpqg93gHUoCbQot8tj5PdKCZ_3mKeO-xDn9qEqntcAmhk7I-HObyQ2BhXY1NOFXuHe5nLj7yCaD7wX2ABf1uoZXLcZhpBPPMcecaYzE_xlhtIqwDzi8hVwLiB1hwG5JoFB8q4U08G9RpgQ')">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2FhhojGgSIp1TeiLRAyqF-yttoUHERojfKE8Du59NianVi4gavaQYs2bJ6hkCnqZREHuuhjH6hqFdWkTP2c2HQUbsWdZ-Zt9PnHYn3zGQgumf-XuzHW-4DTO_TXoLZpqg93gHUoCbQot8tj5PdKCZ_3mKeO-xDn9qEqntcAmhk7I-HObyQ2BhXY1NOFXuHe5nLj7yCaD7wX2ABf1uoZXLcZhpBPPMcecaYzE_xlhtIqwDzi8hVwLiB1hwG5JoFB8q4U08G9RpgQ" alt="Foto 2"/>
+          </div>
+          <div class="gallery-thumb" onclick="setThumb(this, 'https://lh3.googleusercontent.com/aida-public/AB6AXuB6AnWn8zhuKZywMdsWRUGA7u8OAgc8HJUthn-7jwrTHYe1LhE7FjFR_JXXNzFhOCYrk0nzJyyvFosfhrlD8RAd_BRFrKeVE_4M-T-ZUnlSVOSBKaA5Hh95oaIwHZO3l6CMoYTFCxDFMQw1VP7LaRlrJeBDY1j56zXklhBW2ZSwUY5NS7NL-jcby_HGIXOr6Ea8xSbGvyC3EL3FepjTvR4QqDKI6gVzXulVcHgV7tNmx3Cj7hP20-09_EQ8F3yl8X8DK3GdrfGOMw')">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6AnWn8zhuKZywMdsWRUGA7u8OAgc8HJUthn-7jwrTHYe1LhE7FjFR_JXXNzFhOCYrk0nzJyyvFosfhrlD8RAd_BRFrKeVE_4M-T-ZUnlSVOSBKaA5Hh95oaIwHZO3l6CMoYTFCxDFMQw1VP7LaRlrJeBDY1j56zXklhBW2ZSwUY5NS7NL-jcby_HGIXOr6Ea8xSbGvyC3EL3FepjTvR4QqDKI6gVzXulVcHgV7tNmx3Cj7hP20-09_EQ8F3yl8X8DK3GdrfGOMw" alt="Foto 3"/>
+          </div>
+          <div class="gallery-thumb" onclick="setThumb(this, 'https://lh3.googleusercontent.com/aida-public/AB6AXuAYT4Hu6eNV0OElL3bNDkYJwLno2eDKqs3u3Sa9BxFWbw4eQmzxINyaSpOxhpZ_9J0QMiIVcOoBmd72neqJ3B33rWxnsVYxA2mfiWIm3lnFA-Vog-17T8T_TvuaOYa1y9YBXSnnZKmQU1jsV9ad2XiNioJ9sv3hdnh9goidVpdisk2cdM3bn7DX5T85-pEHY0cf2ebuyKZ8r-d7MfaUqyG099M6t_6oX9EbtWqpVZFarTzNIIvWAuNrmyw3sMrzTDPKNplwVM0DlA')">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYT4Hu6eNV0OElL3bNDkYJwLno2eDKqs3u3Sa9BxFWbw4eQmzxINyaSpOxhpZ_9J0QMiIVcOoBmd72neqJ3B33rWxnsVYxA2mfiWIm3lnFA-Vog-17T8T_TvuaOYa1y9YBXSnnZKmQU1jsV9ad2XiNioJ9sv3hdnh9goidVpdisk2cdM3bn7DX5T85-pEHY0cf2ebuyKZ8r-d7MfaUqyG099M6t_6oX9EbtWqpVZFarTzNIIvWAuNrmyw3sMrzTDPKNplwVM0DlA" alt="Foto 4"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFO PANEL -->
+      <div class="product-info">
+        <div>
+          <div class="product-info-category">Reutilizáveis · Casa</div>
+          <h1 class="product-info-title">Garrafa Térmica Stellar</h1>
+        </div>
+
+        <div class="product-info-rating">
+          <div class="rating-stars">
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="material-symbols-outlined star-empty">star</span>
+          </div>
+          <span class="rating-number">4.2</span>
+          <span class="rating-count">(119 avaliações)</span>
+          <div class="rating-divider"></div>
+          <span class="stock-tag stock-low">⚡ Últimas 8 unidades</span>
+        </div>
+
+        <div>
+          <div class="product-info-price">
+            <span class="price-main">R$ 124,90</span>
+            <span class="price-old">R$ 159,90</span>
+            <span class="price-discount">−22%</span>
+          </div>
+          <p class="price-installment">ou 3× de R$ 41,63 sem juros</p>
+        </div>
+
+        <!-- Quantity -->
+        <div>
+          <div style="font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;color:var(--on-variant);margin-bottom:8px;">Quantidade</div>
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <div class="qty-selector">
+              <button class="qty-selector-btn" id="qty-minus" onclick="changeQty(-1)">−</button>
+              <span class="qty-selector-val" id="qty-val">1</span>
+              <button class="qty-selector-btn" id="qty-plus" onclick="changeQty(1)">+</button>
+            </div>
+            <span style="font-size:13px;color:var(--on-variant);">8 disponíveis em estoque</span>
+          </div>
+        </div>
+
+        <!-- CTAs -->
+        <div class="product-cta">
+          <button class="btn-add-cart" id="btn-add-cart" onclick="addToCartDetail()">
+            <span class="material-symbols-outlined" style="font-size:20px;">shopping_cart</span>
+            Adicionar ao carrinho
+          </button>
+          <button class="btn-buy-now" onclick="buyNow()">
+            Comprar agora
+          </button>
+        </div>
+
+        <!-- Perks -->
+        <div class="perks">
+          <div class="perk">
+            <span class="material-symbols-outlined">local_shipping</span>
+            Frete grátis acima de R$ 150
+          </div>
+          <div class="perk">
+            <span class="material-symbols-outlined">replay</span>
+            30 dias para troca
+          </div>
+          <div class="perk">
+            <span class="material-symbols-outlined">eco</span>
+            Embalagem sustentável
+          </div>
+          <div class="perk">
+            <span class="material-symbols-outlined">lock</span>
+            Pagamento seguro
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DETAIL TABS ── -->
+    <div style="margin-top:64px;">
+      <div class="detail-tabs">
+        <button class="detail-tab active" onclick="switchDetailTab('desc', this)">Descrição</button>
+        <button class="detail-tab" onclick="switchDetailTab('specs', this)">Especificações</button>
+        <button class="detail-tab" onclick="switchDetailTab('reviews', this)">Avaliações (119)</button>
+      </div>
+
+      <!-- Descrição -->
+      <div class="detail-panel active" id="dt-desc">
+        <div class="detail-desc">
+          <p>A <strong>Garrafa Térmica Stellar</strong> foi projetada para quem não abre mão de praticidade e sustentabilidade. Com tecnologia de parede dupla em aço inoxidável, ela mantém bebidas quentes por até <strong>12 horas</strong> e frias por até <strong>24 horas</strong>.</p>
+          <p>O revestimento interno é livre de BPA e o exterior possui um acabamento fosco premium que resiste a arranhões e oferece uma pegada segura mesmo com as mãos molhadas.</p>
+          <p>Ao escolher a Stellar, você está eliminando centenas de garrafinhas plásticas descartáveis por ano — um gesto pequeno com impacto enorme.</p>
+        </div>
+        <ul class="detail-list" style="margin-top:20px;">
+          <li><span class="material-symbols-outlined">check_circle</span>Aço inoxidável grau alimentar 18/8, sem BPA</li>
+          <li><span class="material-symbols-outlined">check_circle</span>Tampa com vedação hermética à prova de vazamento</li>
+          <li><span class="material-symbols-outlined">check_circle</span>Abertura larga: fácil de lavar e adicionar gelo</li>
+          <li><span class="material-symbols-outlined">check_circle</span>Compatível com a maioria dos porta-garrafas de bicicleta</li>
+          <li><span class="material-symbols-outlined">check_circle</span>Embalagem 100% reciclável e sem plástico</li>
+        </ul>
+      </div>
+
+      <!-- Especificações -->
+      <div class="detail-panel" id="dt-specs">
+        <table class="specs-table">
+          <tr><td>Material</td><td>Aço Inoxidável 18/8 grau alimentar</td></tr>
+          <tr><td>Capacidade</td><td>500 ml</td></tr>
+          <tr><td>Peso</td><td>320 g</td></tr>
+          <tr><td>Dimensões</td><td>7,5 cm (diâmetro) × 26 cm (altura)</td></tr>
+          <tr><td>Quente</td><td>Até 12 horas</td></tr>
+          <tr><td>Frio</td><td>Até 24 horas</td></tr>
+          <tr><td>Tampa</td><td>Rosqueável com vedação hermética</td></tr>
+          <tr><td>Lavar à máquina</td><td>Não recomendado (lavar à mão)</td></tr>
+          <tr><td>BPA Free</td><td>Sim</td></tr>
+          <tr><td>Cor disponível</td><td>Verde Floresta Matte</td></tr>
+          <tr><td>Garantia</td><td>12 meses</td></tr>
+          <tr><td>Certificação</td><td>INMETRO, ISO 9001</td></tr>
+        </table>
+      </div>
+
+      <!-- Avaliações -->
+      <div class="detail-panel" id="dt-reviews">
+        <!-- Resumo de avaliações -->
+        <div style="display:flex;align-items:center;gap:32px;margin-bottom:32px;padding:20px;background:var(--surface-low);border-radius:16px;flex-wrap:wrap;">
+          <div style="text-align:center;">
+            <div style="font-family:'Manrope',sans-serif;font-size:56px;font-weight:800;color:var(--primary);line-height:1;">4.2</div>
+            <div class="rating-stars" style="justify-content:center;margin:6px 0;">
+              <span class="material-symbols-outlined">star</span>
+              <span class="material-symbols-outlined">star</span>
+              <span class="material-symbols-outlined">star</span>
+              <span class="material-symbols-outlined">star</span>
+              <span class="material-symbols-outlined star-empty">star</span>
+            </div>
+            <div style="font-size:12px;color:var(--on-variant);">119 avaliações</div>
+          </div>
+          <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:12px;width:16px;">5★</span>
+              <div style="flex:1;height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden;"><div style="width:52%;height:100%;background:#d4b800;border-radius:4px;"></div></div>
+              <span style="font-size:12px;color:var(--on-variant);width:28px;">52%</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:12px;width:16px;">4★</span>
+              <div style="flex:1;height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden;"><div style="width:28%;height:100%;background:#d4b800;border-radius:4px;"></div></div>
+              <span style="font-size:12px;color:var(--on-variant);width:28px;">28%</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:12px;width:16px;">3★</span>
+              <div style="flex:1;height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden;"><div style="width:12%;height:100%;background:#d4b800;border-radius:4px;"></div></div>
+              <span style="font-size:12px;color:var(--on-variant);width:28px;">12%</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:12px;width:16px;">2★</span>
+              <div style="flex:1;height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden;"><div style="width:5%;height:100%;background:#d4b800;border-radius:4px;"></div></div>
+              <span style="font-size:12px;color:var(--on-variant);width:28px;">5%</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:12px;width:16px;">1★</span>
+              <div style="flex:1;height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden;"><div style="width:3%;height:100%;background:#d4b800;border-radius:4px;"></div></div>
+              <span style="font-size:12px;color:var(--on-variant);width:28px;">3%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews list -->
+        <div class="review-item">
+          <div class="review-header">
+            <div class="review-avatar">RC</div>
+            <div>
+              <div class="review-name">Rafael C.</div>
+              <div class="review-stars"><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span></div>
+            </div>
+            <span class="review-verified">✓ Compra verificada</span>
+            <span class="review-date">Mai 2026</span>
+          </div>
+          <p class="review-body">Garrafa incrível! Meu café do café da manhã ainda estava quente na hora do almoço. O acabamento fosco é lindo e não marca digitais. Já indiquei para 3 pessoas.</p>
+        </div>
+
+        <div class="review-item">
+          <div class="review-header">
+            <div class="review-avatar">JM</div>
+            <div>
+              <div class="review-name">Julia M.</div>
+              <div class="review-stars"><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined star-empty">star</span></div>
+            </div>
+            <span class="review-verified">✓ Compra verificada</span>
+            <span class="review-date">Abr 2026</span>
+          </div>
+          <p class="review-body">Muito boa! Só tirei 1 estrela porque esperava que a tampa fosse de aço também, mas é de plástico. No mais, perfeita: não vazou nada na minha mochila em 3 meses de uso.</p>
+        </div>
+
+        <div class="review-item">
+          <div class="review-header">
+            <div class="review-avatar">TP</div>
+            <div>
+              <div class="review-name">Thiago P.</div>
+              <div class="review-stars"><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span></div>
+            </div>
+            <span class="review-verified">✓ Compra verificada</span>
+            <span class="review-date">Mar 2026</span>
+          </div>
+          <p class="review-body">Comprei para substituir minha garrafa plástica e não me arrependo nem um pouco. Chegou super bem embalada, sem plástico, apenas papelão. A EcoShop pratica o que prega.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<!-- ── RELATED PRODUCTS ── -->
+<section class="related">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-eyebrow">Você também pode gostar</span>
+        <h2 class="section-title">Produtos Relacionados</h2>
+      </div>
+      <a href="produtos.html" class="section-link">
+        Ver todos <span class="material-symbols-outlined" style="font-size:18px;">arrow_forward</span>
+      </a>
+    </div>
+    <div class="related-grid">
+
+      <div class="product-card">
+        <div class="product-card-image">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2FhhojGgSIp1TeiLRAyqF-yttoUHERojfKE8Du59NianVi4gavaQYs2bJ6hkCnqZREHuuhjH6hqFdWkTP2c2HQUbsWdZ-Zt9PnHYn3zGQgumf-XuzHW-4DTO_TXoLZpqg93gHUoCbQot8tj5PdKCZ_3mKeO-xDn9qEqntcAmhk7I-HObyQ2BhXY1NOFXuHe5nLj7yCaD7wX2ABf1uoZXLcZhpBPPMcecaYzE_xlhtIqwDzi8hVwLiB1hwG5JoFB8q4U08G9RpgQ" alt="Copo de Fibra de Bambu"/>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <h3 class="product-card-name">Copo de Fibra de Bambu</h3>
+          <div class="stars"><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined star-empty">star</span><span class="stars-count">4.0 (38)</span></div>
+          <div class="product-card-footer">
+            <span class="product-card-price">R$ 45,90</span>
+            <button class="btn-cart-icon" aria-label="Adicionar ao carrinho"><span class="material-symbols-outlined" style="font-size:20px;">add_shopping_cart</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-image">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvWn6Rq8Iawcy1NIjlJhlHC0YGoOWqmr7hjmIaWHXxDjUThzTrjhCunczMC4FPP8eE8EAtqC7RQUkO0AGQePGDWgdzyoNgnn8nmFE9WAqFdWmB8_YcA76H68BPLhUiBPXE9NTcr-5ovvRx7_JK3_M58HnOyx1yJG3i0K0iXCBqFa1D8LFc8ntRRtf4uazu7KixlMBUVV1Ae5DCVVU_gWyMxkqIcBB2WM4VQcS8TRjJFvh5TkM3RYYXR8VuF4UtAv3R90HHiTwQ5A" alt="Escova de Dente Bambu"/>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <h3 class="product-card-name">Escova de Dente Bambu (4un)</h3>
+          <div class="stars"><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="stars-count">4.8 (204)</span></div>
+          <div class="product-card-footer">
+            <span class="product-card-price">R$ 32,00</span>
+            <button class="btn-cart-icon" aria-label="Adicionar ao carrinho"><span class="material-symbols-outlined" style="font-size:20px;">add_shopping_cart</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-image">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6AnWn8zhuKZywMdsWRUGA7u8OAgc8HJUthn-7jwrTHYe1LhE7FjFR_JXXNzFhOCYrk0nzJyyvFosfhrlD8RAd_BRFrKeVE_4M-T-ZUnlSVOSBKaA5Hh95oaIwHZO3l6CMoYTFCxDFMQw1VP7LaRlrJeBDY1j56zXklhBW2ZSwUY5NS7NL-jcby_HGIXOr6Ea8xSbGvyC3EL3FepjTvR4QqDKI6gVzXulVcHgV7tNmx3Cj7hP20-09_EQ8F3yl8X8DK3GdrfGOMw" alt="Kit Panos de Cera"/>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <h3 class="product-card-name">Kit Panos de Cera de Abelha</h3>
+          <div class="stars"><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined star-empty">star</span><span class="stars-count">4.1 (77)</span></div>
+          <div class="product-card-footer">
+            <span class="product-card-price">R$ 65,50</span>
+            <button class="btn-cart-icon" aria-label="Adicionar ao carrinho"><span class="material-symbols-outlined" style="font-size:20px;">add_shopping_cart</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-image">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYT4Hu6eNV0OElL3bNDkYJwLno2eDKqs3u3Sa9BxFWbw4eQmzxINyaSpOxhpZ_9J0QMiIVcOoBmd72neqJ3B33rWxnsVYxA2mfiWIm3lnFA-Vog-17T8T_TvuaOYa1y9YBXSnnZKmQU1jsV9ad2XiNioJ9sv3hdnh9goidVpdisk2cdM3bn7DX5T85-pEHY0cf2ebuyKZ8r-d7MfaUqyG099M6t_6oX9EbtWqpVZFarTzNIIvWAuNrmyw3sMrzTDPKNplwVM0DlA" alt="Eco-Bag"/>
+          <button class="btn-fav" aria-label="Favoritar"><span class="material-symbols-outlined">favorite</span></button>
+        </div>
+        <div class="product-card-body">
+          <h3 class="product-card-name">Eco-Bag de Nylon Reciclado</h3>
+          <div class="stars"><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined star-empty">star</span><span class="stars-count">3.9 (25)</span></div>
+          <div class="product-card-footer">
+            <span class="product-card-price">R$ 59,90</span>
+            <button class="btn-cart-icon" aria-label="Adicionar ao carrinho"><span class="material-symbols-outlined" style="font-size:20px;">add_shopping_cart</span></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div>
+        <div class="footer-logo">EcoShop</div>
+        <p class="footer-copy" style="margin-top:8px;">© 2026 EcoShop — consumo consciente para um planeta melhor</p>
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacidade</a><a href="#">Termos</a><a href="#">Contato</a>
+      </div>
+      <div class="footer-socials">
+        <a href="#"><span class="material-symbols-outlined" style="font-size:18px;">public</span></a>
+        <a href="#"><span class="material-symbols-outlined" style="font-size:18px;">mail</span></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- CARRINHO SIDEBAR -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-sidebar" id="cart-sidebar" aria-label="Carrinho de compras">
+  <div class="cart-header">
+    <div class="cart-header-left">
+      <span class="material-symbols-outlined" style="font-size:22px;color:var(--primary);font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">shopping_bag</span>
+      <span class="cart-title">Meu Carrinho</span>
+      <span class="cart-count-badge" id="cart-count-badge" style="display:none;">0</span>
+    </div>
+    <button class="cart-close" onclick="closeCart()">
+      <span class="material-symbols-outlined" style="font-size:20px;">close</span>
+    </button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none;"></div>
+</aside>
+<div id="cart-toast" class="cart-toast"></div>
+<script src="cart.js"></script>
+
+<script>
+// ── Hamburger ──
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+
+// ── Gallery thumbs ──
+function setThumb(el, src) {
+  document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const img = document.getElementById('main-img');
+  img.style.opacity = '0';
+  setTimeout(() => { img.src = src; img.style.opacity = '1'; }, 200);
+}
+
+// ── Favoritar ──
+document.getElementById('gallery-fav').addEventListener('click', function() {
+  this.classList.toggle('active');
+});
+document.querySelectorAll('.btn-fav').forEach(b => b.addEventListener('click', () => b.classList.toggle('active')));
+
+// ── Quantidade ──
+let qty = 1;
+const maxQty = 8;
+function changeQty(delta) {
+  qty = Math.max(1, Math.min(maxQty, qty + delta));
+  document.getElementById('qty-val').textContent = qty;
+}
+
+// ── Produto desta página ──
+const PRODUCT = {
+  id: 'garrafa-termica-stellar',
+  name: 'Garrafa Térmica Stellar',
+  price: 124.90,
+  img: document.getElementById('main-img').src
+};
+
+// ── Adicionar ao carrinho ──
+function addToCartDetail() {
+  const btn = document.getElementById('btn-add-cart');
+  for (let i = 0; i < qty; i++) cartAdd(PRODUCT);
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:20px;font-variation-settings:\'FILL\' 1,\'wght\' 400,\'GRAD\' 0,\'opsz\' 24;">check_circle</span> Adicionado!';
+  btn.classList.add('added');
+  setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('added'); }, 2000);
+}
+
+// ── Comprar agora ──
+function buyNow() {
+  addToCartDetail();
+  setTimeout(() => openCart(), 300);
+}
+
+// ── Detail tabs ──
+function switchDetailTab(id, btn) {
+  document.querySelectorAll('.detail-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.detail-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('dt-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Related cart buttons ──
+document.querySelectorAll('.btn-cart-icon').forEach(btn => {
+  const card = btn.closest('.product-card');
+  const name = card.querySelector('.product-card-name')?.textContent.trim() || '';
+  const img  = card.querySelector('img')?.src || '';
+  const priceRaw = card.querySelector('.product-card-price')?.textContent || '0';
+  const price = parseFloat(priceRaw.replace('R$','').replace('.','').replace(',','.').trim()) || 0;
+  const id = name.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+  btn.addEventListener('click', () => cartAdd({ id, name, price, img }));
+});
+</script>
+</body>
+</html>
